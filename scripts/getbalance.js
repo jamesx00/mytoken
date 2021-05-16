@@ -8,17 +8,20 @@ const CONTRACTS = {
   },
 };
 
+const ANOTHER_WALLET_PUBIC_ADDRESS = '0x0734533439Df2E6Edba0D3B2b1157A8acdD83D05';
+
 async function main() {
 
   const provider = await ethers.getDefaultProvider();
   const accounts = (await ethers.getSigners());
   const accountAddress = accounts[0].address;
 
-  const TokenContract = new ethers.Contract(CONTRACTS.MYTOKEN.address, CONTRACTS.MYTOKEN.data.abi, provider)
+  const TokenContract = new ethers.Contract(CONTRACTS.MYTOKEN.address, CONTRACTS.MYTOKEN.data.abi, accounts[0])
 
-  myBalance = await TokenContract.balanceOf(accountAddress);
-  console.log(myBalance);
+const myBalance = await TokenContract.balanceOf(accountAddress)
+console.log(myBalance.toString())
 
+await TokenContract.transfer(ANOTHER_WALLET_PUBIC_ADDRESS, 10)
 }
 
 main()
